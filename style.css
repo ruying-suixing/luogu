@@ -1,0 +1,701 @@
+/* ===========================
+   主题变量（深色 + 玻璃）
+   =========================== */
+:root {
+    --primary: rgb(0 255 200 / 84%);
+    --background: #0b1220;
+    --surface: rgba(30, 41, 59, 0.65);
+    --surface-strong: rgba(30, 41, 59, 0.9);
+    --surface-light: rgba(51, 65, 85, 0.6);
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border: rgba(148, 163, 184, 0.15);
+    --blur: blur(12px);
+    --radius: 16px;
+    --transition: 0.35s cubic-bezier(.4, 0, .2, 1);
+    --fade-fast: 0.15s cubic-bezier(.4, 0, .2, 1); /* 🆕 新增：非线性快速淡入淡出变量 */
+}
+
+/* ===========================
+   全局重置
+   =========================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    background: radial-gradient(
+        circle at 20% 20%,
+        rgba(98,95,255,0.12),
+        transparent 40%
+    ), var(--background);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    overflow: hidden;
+}
+
+/* ===========================
+   侧边栏
+   =========================== */
+.sidebar-wrapper {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 40;
+}
+
+.sidebar {
+    width: 72px;
+    height: 100vh;
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border-right: 1px solid var(--border);
+    transition: width var(--transition);
+    overflow: hidden;
+}
+
+.sidebar:hover {
+    width: 230px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 40px;
+    padding-left: 8px; 
+    transition: padding-left var(--transition);
+}
+
+.sidebar-logo {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    transition: margin-right var(--transition);
+}
+.sidebar:not(:hover) .sidebar-logo {
+    margin-right: -12px; 
+}
+.sidebar:hover .sidebar-logo {
+    margin-right: 0;
+}
+
+.sidebar-title {
+    font-size: 18px;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity var(--fade-fast), margin-left var(--transition); /* 🔄 修改：淡出改为快速非线性 */
+}
+
+.sidebar:hover .sidebar-title {
+    opacity: 1;
+    margin-left: 0;
+}
+
+/* ===========================
+   导航项
+   =========================== */
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: all var(--transition);
+    position: relative;
+}
+
+.nav-item .text {
+    opacity: 0;
+    white-space: nowrap;
+    transition: opacity var(--fade-fast); /* 🔄 修改：文字淡入改为快速非线性 */
+}
+
+.sidebar:hover .nav-item .text {
+    opacity: 1;
+}
+
+.icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform var(--transition);
+}
+
+.nav-item:hover {
+    background: var(--surface-light);
+    color: var(--text);
+    transform: translateX(6px);
+}
+
+.nav-item:hover .icon {
+    transform: scale(1.15);
+}
+
+.nav-item.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 0 20px rgba(98,95,255,0.4);
+}
+
+/* ===========================
+   主区域
+   =========================== */
+.main {
+    margin-left: 72px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left var(--transition);
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: scroll;
+    animation: fadeInPage 0.3s var(--fade-fast) both; /* 🆕 新增：页面加载快速淡入 */
+}
+
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.sidebar:hover ~ .main {
+    margin-left: 230px;
+}
+
+/* ===========================
+   顶栏
+   =========================== */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 0 28px;
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.breadcrumb ol {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 6px;
+}
+
+.breadcrumb a {
+    color: #58a6ff;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.breadcrumb a:hover {
+    text-decoration: underline;
+    color: var(--primary);
+}
+.breadcrumb .separator {
+    color: var(--text-muted);
+    margin: 0 4px;
+}
+.breadcrumb-current {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ===========================
+   内容居中重构
+   =========================== */
+.home-content {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 40px;
+}
+
+.box {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 60px 80px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    transition: transform var(--transition);
+}
+
+.box:hover {
+    transform: translateY(-6px);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+
+.logo {
+    width: 64px;
+    height: 64px;
+    transition: transform var(--transition);
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 700;
+}
+
+h1 span {
+    color: var(--primary);
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.logo-link:hover {
+    color: skyblue;
+}
+
+.logo-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.logo-link:hover::after {
+    width: 100%;
+}
+
+/* ===========================
+   搜索栏（玻璃升级版）
+   =========================== */
+.search-bar {
+    width: 520px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px 0 20px;
+    border-radius: 20px;
+    background: var(--surface-strong);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    transition: all var(--transition);
+}
+
+.search-bar:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(98,95,255,0.25);
+}
+
+.search-bar input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 16px;
+}
+
+.search-bar button {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.search-bar button:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(98,95,255,0.6);
+}
+
+/* ===== 内容区域布局 ===== */
+.content {
+    display: flex !important;
+    place-items: unset !important;
+    padding: 0 2rem !important;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: 2rem;
+    flex: 1;
+    box-sizing: border-box;
+}
+
+.article-left {
+    width: 222px !important;
+    flex-shrink: 0 !important;
+    opacity: 1;
+    padding: 0 1rem 0 0;
+    overflow: visible;
+    transition: 
+        width 0.35s var(--transition),
+        opacity var(--fade-fast), /* 🔄 修改：左侧栏隐藏时快速淡出 */
+        padding 0.3s ease;
+}
+
+@media (max-width: 1399px) {
+    .article-left {
+        width: 0 !important;
+        flex-shrink: 1 !important;
+        min-width: 0;
+        overflow: hidden;
+        padding: 0 !important;
+        margin: 0;
+        opacity: 0;
+    }
+}
+
+.article-middle {
+    flex: 1;
+    min-width: 0;
+    padding: 1.5rem 0 2rem 0;
+}
+
+.article-right {
+    width: 220px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding: 1.5rem 0 2rem 0;
+    align-self: flex-start;
+    position: sticky;
+    top: 1.5rem;
+}
+
+/* 目录容器 */
+.toc-container {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.2rem 1rem;
+    max-height: 60vh;
+    overflow-y: auto;
+    font-size: 0.9rem;
+}
+
+.toc-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.toc-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.toc-list li {
+    margin: 0;
+    padding: 0;
+    line-height: 1.4;
+}
+
+.toc-list a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s, transform 0.1s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.toc-list a:hover {
+    color: var(--primary);
+    transform: translateX(4px);
+}
+
+.toc-h2 { padding-left: 0.8rem; font-size: 0.9rem; }
+.toc-h3 { padding-left: 1.6rem; font-size: 0.85rem; }
+
+/* 右侧三个按钮 */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.action-btn {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.7rem 0.5rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+
+.action-btn:hover:not(:disabled) {
+    background: var(--surface-light);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.action-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* 文章头部 */
+.article-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.2rem;
+}
+
+.article-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    margin: 0 0 0.75rem 0;
+}
+
+.article-author {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.author-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+    background-color: var(--surface);
+    object-fit: cover;
+}
+
+.author-name {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.author-name:hover {
+    text-decoration: underline;
+}
+
+/* 保存时间两行 */
+.save-time {
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.save-time .label {
+    font-weight: 400;
+    opacity: 0.8;
+}
+.save-time .value {
+    font-weight: 500;
+    color: var(--text);
+    word-break: break-word;
+}
+
+/* 加载动画/错误提示 */
+.loading { text-align: center; padding: 3rem; color: var(--text-muted); }
+.spinner { 
+    border: 3px solid var(--surface-light); 
+    border-top: 3px solid var(--primary); 
+    border-radius: 50%; 
+    width: 40px; 
+    height: 40px; 
+    animation: spin 1s linear infinite; 
+    margin: 0 auto 1rem; 
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.error-message { 
+    background: var(--surface-light); 
+    border-left: 4px solid #f85149; 
+    padding: 1.5rem; 
+    border-radius: 8px; 
+    color: var(--text);
+}
+
+/* ===========================
+   自定义滚动条
+   =========================== */
+.main,
+.toc-container {
+    scrollbar-gutter: stable;
+}
+
+.main::-webkit-scrollbar,
+.toc-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.main::-webkit-scrollbar-track,
+.toc-container::-webkit-scrollbar-track {
+    background: var(--surface);
+    border-radius: 4px;
+}
+
+.main::-webkit-scrollbar-thumb,
+.toc-container::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.main::-webkit-scrollbar-thumb:hover,
+.toc-container::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in srgb, var(--primary) 80%, white);
+    border: 2px solid transparent;
+}
+
+.main,
+.toc-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--surface);
+}
+
+/* ===========================
+   页脚样式
+   =========================== */
+.site-footer {
+    margin-top: auto;
+    padding: 1rem 1rem 1rem;
+    background: var(--surface);
+    backdrop-filter: var(--blur);
+    border-top: 1px solid var(--border);
+    text-align: right;
+}
+
+.footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: #58a6ff;
+    text-decoration: none;
+    transition: color 0.2s;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+    color: var(--primary);
+}
+
+.footer-separator {
+    color: var(--text-muted);
+    margin: 0 0.25rem;
+}
+
+.footer-copyright {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.footer-copyright p {
+    margin: 0.25rem 0;
+    font-size: 11px;
+}
+
+/* 响应式调整 */
+@media (max-width: 1024px) {
+    .content {
+        flex-direction: column;
+    }
+    .article-right {
+        position: static;
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        order: -1;
+        margin-bottom: 1rem;
+    }
+    .toc-container, .save-time, .action-buttons {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        text-align: center;
+    }
+    .footer-links {
+        justify-content: center;
+    }
+}

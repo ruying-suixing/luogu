@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- Clarity tracking code for https://luogu.qzz.io/ -->
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "vi2g0q5518");
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云剪切板 · GenGen 洛谷国际</title>
+    <!-- 洛谷基础样式 + 扩展样式 (优先级低于 style.css: 先引入它们) -->
+    <link rel="stylesheet" href="https://luogu.qzz.io/mark.css">
+    <!-- 共用 favicon & 主样式表 (深色玻璃变量 + 侧边栏 + 基础框架) 后引入，优先级高 -->
+    <link rel="icon" href="https://luogu.qzz.io/lgge.svg">
+    <link rel="stylesheet" href="https://luogu.qzz.io/style.css">
+    <!-- GitHub Markdown 深色主题 + 代码高亮深色 (背景将强制透明) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-dark.min.css">
+    <link rel="stylesheet" href="https://cdn.timecdn.cn/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+    <!-- 导入 highlight.js -->
+    <script src="https://cdn.timecdn.cn/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    <!-- 聊天脚本 -->
+    <script src="https://gengen.qzz.io/js/lgge-chat.js" defer></script>
+    <!-- KaTeX 样式 & 脚本 -->
+    <link rel="stylesheet" href="https://cdn.timecdn.cn/ajax/libs/KaTeX/0.16.9/katex.min.css">
+    <!-- marked 最新版本与 DOMPurify, KaTeX auto-render -->
+    <script src="https://cdn.timecdn.cn/ajax/libs/marked/16.3.0/lib/marked.umd.min.js"></script>
+    <script src="https://cdn.timecdn.cn/ajax/libs/dompurify/3.2.7/purify.min.js"></script>
+    <script src="https://cdn.timecdn.cn/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+    <script src="https://cdn.timecdn.cn/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+    <!-- Font Awesome (提升图标体验) -->
+    <link rel="stylesheet" href="https://cdn.jsdmirror.cn/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
+</head>
+<body>
+    <!-- 侧边栏 (与主页一致，云剪切板项 active) -->
+    <div class="sidebar-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://luogu.qzz.io/lgge.svg" class="sidebar-logo" alt="logo">
+                <span class="sidebar-title">GenGen 洛谷国际</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house size-5 shrink-0" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+                    <span class="text">首页</span>
+                </a>
+                <a href="/article" class="nav-item">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper-icon lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg></span>
+                    <span class="text">文章</span>
+                </a>
+                <a href="/paste" class="nav-item active">
+                    <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-pen-line-icon lucide-clipboard-pen-line"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.5"/><path d="M16 4h2a2 2 0 0 1 1.73 1"/><path d="M8 18h1"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></svg></span>
+                    <span class="text">云剪切板</span>
+                </a>
+            </nav>
+        </aside>
+    </div>
+
+    <!-- 主区域 (顶栏 + 动态内容) -->
+    <div class="main">
+        <!-- 顶栏 (面包屑) -->
+        <header class="topbar">
+            <nav class="breadcrumb">
+                <ol>
+                    <li><a href="/">首页</a></li>
+                    <li class="separator">/</li>
+                    <li><a href="/article">云剪切板</a></li>
+                    <li class="separator">/</li>
+                    <li class="breadcrumb-item">
+                        <span class="breadcrumb-current" id="breadcrumb-current">加载中...</span>
+                    </li>
+                </ol>
+            </nav>
+        </header>
+
+        <!-- 内容区域: 左侧留白 + 云剪切板主体 + 右侧固定面板 -->
+        <div class="content">
+            <div class="article-left"></div>
+
+            <div class="article-middle">
+                <div class="article-header">
+                    <h1 class="article-title" id="dynamic-article-title">加载云剪切板...</h1>
+                    <div class="article-author">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='38' height='38' viewBox='0 0 38 38'%3E%3Ccircle cx='19' cy='19' r='17' fill='%23333f5a'/%3E%3C/svg%3E" class="author-avatar" id="author-avatar" alt="作者头像">
+                        <a href="#" class="author-name" id="author-link" target="_blank">加载中</a>
+                    </div>
+                </div>
+
+                <!-- 云剪切板主体：将使用新渲染引擎填充 -->
+                <div class="markdown-body" id="markdown-content">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>正在加载云剪切板内容...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="article-right">
+                <div class="save-time" id="save-time">
+                    <span class="label">当前文档保存于</span>
+                    <span class="value">--</span>
+                </div>
+
+                <div class="toc-container">
+                    <div class="toc-title">目录</div>
+                    <ul class="toc-list" id="toc-list"></ul>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="action-btn" id="update-btn">更新内容</button>
+                    <button class="action-btn" id="original-btn" disabled>访问原文</button>
+                    <button class="action-btn" id="copy-btn" disabled>复制 MD</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="https://luogu.qzz.io/article/x2zyl5ua" target="_blank">关于</a>
+                <span class="footer-separator">·</span>
+                <a href="https://luogu.qzz.io/article/j4u9p5ux" target="_blank">API 协议</a>
+                <span class="footer-separator">·</span>
+                <a href="https://luogu.qzz.io/article/pqahkkyk" target="_blank">用户及隐私协议</a>
+                <span class="footer-separator">·</span>
+                <a href="https://www.luogu.com.cn/chat?uid=697932" target="_blank">联系我们</a>
+                <span class="footer-separator">·</span>
+                <a href="https://github.com/ggenerals/gengen-luogu" target="_blank">GitHub 仓库</a>
+            </div>
+            <div class="footer-copyright">
+                <p>© 2026 全体 GenGen 队 开发者 </p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        (function() {
+            // ==================== 新渲染引擎 (完全移植自第一个文件) ====================
+            if (typeof hljs === 'undefined') {
+                console.warn('hljs 未加载，使用降级');
+                window.hljs = { highlight: (code) => ({ value: code }), highlightElement: (el) => {} };
+            }
+
+            // ----- 1. 定义 marked 扩展（与第一个文件完全一致）-----
+            const customExtensions = [
+                {
+                    name: 'alignBlock',
+                    level: 'block',
+                    start(src) { return src.match(/^:::\s*align\s*\{([^}]+)\}/)?.index; },
+                    tokenizer(src, tokens) {
+                        const match = src.match(/^:::\s*align\s*\{([^}]+)\}([\s\S]*?)\n:::/);
+                        if (match) {
+                            return {
+                                type: 'alignBlock',
+                                raw: match[0],
+                                align: match[1].trim(),
+                                content: match[2].trim()
+                            };
+                        }
+                    },
+                    renderer(token) {
+                        return `<div class="align-${token.align}">${marked.parse(token.content)}</div>`;
+                    }
+                },
+                {
+                    name: 'epigraph',
+                    level: 'block',
+                    start(src) { return src.match(/^:::\s*epigraph(\[([^\]]+)\])?/)?.index; },
+                    tokenizer(src, tokens) {
+                        const match = src.match(/^:::\s*epigraph(\[([^\]]+)\])?\s*([\s\S]*?)\s*:::/);
+                        if (match) {
+                            return {
+                                type: 'epigraph',
+                                raw: match[0],
+                                author: match[2] || '',
+                                content: match[3].trim()
+                            };
+                        }
+                    },
+                    renderer(token) {
+                        const authorPart = token.author ? `<p>${token.author}</p>` : '<p>unknown author</p>';
+                        return `<div class="epigraph">${marked.parse(token.content)}${authorPart}</div>`;
+                    }
+                },
+                {
+                    name: 'foldable',
+                    level: 'block',
+                    start(src) { return src.match(/^:{3,}/)?.index; },
+                    tokenizer(src, tokens) {
+                        const match = src.match(/^(:{3,})\s*(\w+)?(\[([^\]]+)\])?(\s*\{([^}]+)\})?\s*([\s\S]*?)\s*\1/);
+                        if (match && ['info','warning','success','error','bug','flask'].includes(match[2])) {
+                            return {
+                                type: 'foldable',
+                                raw: match[0],
+                                foldType: match[2] || 'info',
+                                title: match[4] || '',
+                                options: match[6] || '',
+                                content: match[7].trim()
+                            };
+                        }
+                    },
+                    renderer(token) {
+                        const isOpen = token.options.includes('open');
+                        return `
+                            <details class="foldable ${token.foldType}" ${isOpen ? 'open' : ''}>
+                                <summary>${token.title || '点击展开'}</summary>
+                                ${marked.parse(token.content)}
+                            </details>
+                        `;
+                    }
+                }
+            ];
+
+            marked.use({ extensions: customExtensions });
+
+            // ----- 2. 自定义 renderer 实现代码高亮 -----
+            const renderer = new marked.Renderer();
+            renderer.code = function (code, language) {
+                code=code.text;
+                const lang = language || 'cpp';
+                let highlighted = code;
+                console.log(lang);
+                if (lang) {
+                    try {
+                        highlighted = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
+                    } catch (e) {}
+                }
+                return `<div class="code-container"><pre><code class="language-${lang}">${highlighted}</code></pre></div>`;
+            };
+
+            marked.setOptions({
+                breaks: false,
+                gfm: true,
+                mangle: false,
+                headerIds: false,
+                renderer: renderer
+            });
+
+            // ----- 3. 核心渲染函数 (含预处理、清洗、公式) -----
+            function renderMarkdown(text) {
+                // 预处理：公式换行 & 表格修复
+                text = text.replace(/(^|\s)\$\$\s*\n([\s\S]*?)\n\s*\$\$(?=\s|$)/gm, '$1\n$$$$$2$$$$\n');
+                text = text.replace(/([^\n])\n(\|.*\|)\n(\|.*[-:].*\|)/g, '$1\n\n$2\n$3');
+
+                const rawHtml = marked.parse(text);
+                const cleanHtml = DOMPurify.sanitize(rawHtml, {
+                    ADD_TAGS: ['span', 'div', 'math', 'details', 'summary', 'i', 'font'],
+                    ADD_ATTR: ['class', 'src', 'alt', 'data-math', 'open', 'referrerpolicy', 'crossorigin'],
+                    ALLOWED_URI_REGEXP: /^(?:(?:(?:f|ht)tps?|mailto|tel|callto|cid|xmpp|xxx):|[^a-z]|[a-z+.\-]+(?:[^a-z+.\-:]|$))/i,
+                    SAFE_FOR_TEMPLATES: false
+                });
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = cleanHtml;
+
+                renderMathInElement(tempDiv, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    strict: false,
+                    escape: false,
+                    preProcess: (math) => math.replace(/\\(\r?\n)/g, '\\\\$1')
+                });
+
+                tempDiv.querySelectorAll('img').forEach(img => {
+                    img.setAttribute('referrerpolicy', 'no-referrer');
+                    img.setAttribute('crossorigin', 'anonymous');
+                });
+
+                return tempDiv.innerHTML;
+            }
+
+            // ========== 原有业务逻辑：获取云剪切板ID、加载数据、绑定按钮 ==========
+            let articleId = null;
+            const path = window.location.pathname;
+            const pathMatch = path.match(/\/paste\/([a-z0-9]+)/);
+            if (pathMatch) articleId = pathMatch[1];
+            if (!articleId && window.location.hash) articleId = window.location.hash.replace(/^#/, '').trim();
+            if (!articleId) {
+                const params = new URLSearchParams(window.location.search);
+                articleId = params.get('id');
+            }
+            if (!articleId || articleId.length < 3) {
+                articleId = 'yx7hyde9'; // 默认演示ID
+            }
+
+            document.getElementById('breadcrumb-current').innerText = `ID: ${articleId}`;
+
+            const titleEl = document.getElementById('dynamic-article-title');
+            const authorAvatar = document.getElementById('author-avatar');
+            const authorLink = document.getElementById('author-link');
+            const saveTimeEl = document.getElementById('save-time');
+            const originalBtn = document.getElementById('original-btn');
+            const copyBtn = document.getElementById('copy-btn');
+            const updateBtn = document.getElementById('update-btn');
+            const markdownBody = document.getElementById('markdown-content');
+            const tocList = document.getElementById('toc-list');
+            const breadcrumbSpan = document.getElementById('breadcrumb-current');
+
+            async function loadArticle(forceUpdate = false) {
+                let apiUrl = `https://luogu.qzz.io/api/p/${articleId}`;
+                if (forceUpdate) {
+                    apiUrl += '?update=1';
+                }
+
+                try {
+                    const resp = await fetch(apiUrl, { mode: 'cors' });
+                    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                    const data = await resp.json();
+
+                    if (!data.success || data.type !== 'paste') {
+                        throw new Error(data.message || '无效的云剪切板数据');
+                    }
+                    data.title=data.author.name+" 的云剪切板";
+                    titleEl.innerText = data.title;
+                    document.title = `${data.title} - GenGen 洛谷国际`;
+                    breadcrumbSpan.innerText = data.title;
+
+                    authorAvatar.src = `https://cdn.luogu.com.cn/upload/usericon/${data.author.uid}.png`;
+                    authorLink.href = `https://luogu.com.cn/user/${data.author.uid}`;
+                    authorLink.innerText = data.author.name;
+
+                    const ts = data.updated_at > 1e12 ? data.updated_at : data.updated_at * 1000;
+                    const d = new Date(ts);
+                    const formatted = d.toLocaleString('zh-CN', { 
+                        year: 'numeric', month: '2-digit', day: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit',
+                        hour12: false 
+                    }).replace(/\//g, '-').replace(',', '');
+                    saveTimeEl.querySelector('.value').innerText = formatted;
+
+                    originalBtn.disabled = false;
+                    copyBtn.disabled = false;
+
+                    originalBtn.onclick = () => {
+                        if (data.original_url) window.open(data.original_url.trim(), '_blank');
+                    };
+
+                    copyBtn.onclick = async () => {
+                        try {
+                            await navigator.clipboard.writeText(data.content);
+                            const old = copyBtn.innerText;
+                            copyBtn.innerText = '已复制';
+                            copyBtn.disabled = true;
+                            setTimeout(() => {
+                                copyBtn.innerText = old;
+                                copyBtn.disabled = false;
+                            }, 1500);
+                        } catch {
+                            alert('复制失败，请手动复制');
+                        }
+                    };
+
+                    // 使用新渲染引擎渲染内容
+                    const finalHtml = renderMarkdown(data.content);
+                    markdownBody.innerHTML = finalHtml;
+
+                    // 生成目录
+                    const headers = markdownBody.querySelectorAll('h1, h2, h3');
+                    if (headers.length > 0) {
+                        tocList.innerHTML = '';
+                        headers.forEach((h, index) => {
+                            const level = parseInt(h.tagName[1]);
+                            let text = h.innerText;
+                            if (!h.id) {
+                                h.id = `toc-header-${index}`;
+                            }
+                            const li = document.createElement('li');
+                            const a = document.createElement('a');
+                            a.href = `#${h.id}`;
+                            a.innerText = text;
+                            a.classList.add(`toc-h${level}`);
+                            li.appendChild(a);
+                            tocList.appendChild(li);
+                        });
+
+                        document.querySelectorAll('.toc-list a').forEach(a => {
+                            a.addEventListener('click', e => {
+                                e.preventDefault();
+                                const target = document.querySelector(a.getAttribute('href'));
+                                if (target) {
+                                    target.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            });
+                        });
+                    } else {
+                        tocList.innerHTML = '<li style="color: var(--text-muted);">无标题</li>';
+                    }
+
+                } catch (err) {
+                    console.error('加载失败:', err);
+                    titleEl.innerText = '加载失败';
+                    markdownBody.innerHTML = `<div class="error-message">错误：${err.message}</div>`;
+                    breadcrumbSpan.innerText = '错误';
+                }
+            }
+
+            loadArticle(false);
+
+            updateBtn.onclick = () => {
+                markdownBody.innerHTML = '<div class="loading"><div class="spinner"></div><p>更新中...</p></div>';
+                loadArticle(true);
+            };
+        })();
+    </script>
+</body>
+</html>

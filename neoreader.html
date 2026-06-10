@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>完整 Markdown 渲染器（Luogu 风格）</title>
+    <!-- 外部样式：用户指定 + 额外必备样式 -->
+    <link rel="stylesheet" href="https://luogu.qzz.io/mark.css">
+    <link rel="stylesheet" href="https://cdn.jsdmirror.cn/gh/zym2013/amazing-luogu-international@main/style/markdown.css">
+    <link rel="stylesheet" href="https://cdn.jsdmirror.cn/npm/katex@0.16.27/dist/katex.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdmirror.cn/gh/highlightjs/cdn-release@11.8.0/build/styles/atom-one-light.min.css">
+    <!-- Font Awesome (用于图标，非必需但提升体验) -->
+    <link rel="stylesheet" href="https://cdn.jsdmirror.cn/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css">
+    <!-- 定义 CSS 变量（原样式中使用了 var(--*)） -->
+    <style>
+        :root {
+            --text-color: #24292e;
+            --primary-color: #126fcc;
+            --border-color: #e1e4e8;
+            --card-bg: #ffffff;
+            --bg-color: #f6f8fa;
+            --text-light: #6a737d;
+            --border-radius-sm: 6px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --text-color: #e1e4e8;
+                --primary-color: #58a6ff;
+                --border-color: #30363d;
+                --card-bg: #0d1117;
+                --bg-color: #010409;
+                --text-light: #8b949e;
+            }
+            /* 暗色模式代码块覆盖 */
+            .hljs, .code-container, pre {
+                background: #282c34 !important;
+                color: #abb2bf !important;
+            }
+            .markdown-body code {
+                background-color: #282c34;
+                color: #abb2bf;
+            }
+        }
+        /* 简单布局：左右分栏 */
+        .app {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+        .input-panel {
+            width: 40%;
+            padding: 20px;
+            background: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+        .input-panel textarea {
+            flex: 1;
+            padding: 12px;
+            font-family: 'LXGW Wenkai Screen', monospace;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            background: var(--bg-color);
+            color: var(--text-color);
+            resize: none;
+        }
+        .output-panel {
+            width: 60%;
+            padding: 20px;
+            overflow-y: auto;
+            background: var(--bg-color);
+        }
+        .output-panel .markdown-body {
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: var(--border-radius-sm);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        button {
+            margin: 10px 0;
+            padding: 8px 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-weight: 500;
+        }
+        button i {
+            margin-right: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="input-panel">
+            <h3 style="margin-top:0; color:var(--text-color);">Markdown 输入</h3>
+            <textarea id="markdown-input" placeholder="在此输入 Markdown 内容...">## 示例文本
+
+这是一段普通文本，包含 **加粗**、*斜体* 和 `行内代码`。
+
+### 数学公式
+行内公式 $E = mc^2$ 和块级公式：
+$$
+\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+$$
+
+### 代码块（支持高亮）
+```javascript
+function hello() {
+    console.log("Hello, world!");
+}
+```
+
+### Luogu 风格自定义块
+
+:::align{center}
+**居中对齐的内容**
+:::
+
+:::epigraph[阿尔伯特·爱因斯坦]
+想象力比知识更重要。
+:::
+
+:::::info[点击展开详情]{open}
+这里是折叠块内的内容，可以包含 **Markdown** 语法。
+:::::
+            </textarea>
+            <button id="render-btn"><i class="fa-solid fa-play"></i>渲染</button>
+        </div>
+        <div class="output-panel">
+            <h3 style="margin-top:0; color:var(--text-color);">预览输出</h3>
+            <div id="preview" class="markdown-body"></div>
+        </div>
+    </div>
+
+    <!-- 依赖脚本 -->
+    <script src="https://cdn.jsdmirror.cn/npm/marked@4.0.0/marked.min.js"></script>
+    <script src="https://cdn.jsdmirror.cn/npm/katex@0.16.27/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdmirror.cn/npm/katex@0.16.27/dist/contrib/auto-render.min.js"></script>
+    <script src="https://cdn.jsdmirror.cn/gh/highlightjs/cdn-release@11.8.0/build/highlight.min.js"></script>
+
+    <script>
+        (function() {
+            // ==================== 自定义 marked 扩展 ====================
+            const customExtensions = [
+                {
+                    name: 'alignBlock',
+                    level: 'block',
+                    start(src) { return src.match(/^:::\s*align\s*\{([^}]+)\}/)?.index; },
+                    tokenizer(src, tokens) {
+                        const match = src.match(/^:::\s*align\s*\{([^}]+)\}([\s\S]*?)\n:::/);
+                        if (match) {
+                            return {
+                                type: 'alignBlock',
+                                raw: match[0],
+                                align: match[1].trim(),
+                                content: match[2].trim()
+                            };
+                        }
+                    },
+                    renderer(token) {
+                        return `<div class="align-${token.align}">${marked.parse(token.content)}</div>`;
+                    }
+                },
+                {
+                    name: 'epigraph',
+                    level: 'block',
+                    start(src) { return src.match(/^:::\s*epigraph(\[([^\]]+)\])?\s*:::/)?.index; },
+                    tokenizer(src, tokens) {
+                        const match = src.match(/^:::\s*epigraph(\[([^\]]+)\])?\s*([\s\S]*?)\s*:::/);
+                        if (match) {
+                            return {
+                                type: 'epigraph',
+                                raw: match[0],
+                                author: match[2] || '',
+                                content: match[3].trim()
+                            };
+                        }
+                    },
+                    renderer(token) {
+                        const authorPart = `<p>${token.author ? token.author : 'unknown author'}</p>`;
+                        return `<div class="epigraph">${marked.parse(token.content)}${authorPart}</div>`;
+                    }
+                },
+                {
+                    name: 'foldable',
+                    level: 'block',
+                    start(src) { return src.match(/^:{3,}/)?.index; },
+                    tokenizer(src, tokens) {
+                        const match = src.match(/^(:{3,})\s*(\w+)?(\[([^\]]+)\])?(\s*\{([^}]+)\})?\s*([\s\S]*?)\s*\1/);
+                        if (match && (match[2] === 'info' || match[2] === 'warning' || match[2] === 'success' || match[2] === 'error' || match[2] === 'bug' || match[2] === 'flask')) {
+                            return {
+                                type: 'foldable',
+                                raw: match[0],
+                                foldType: match[2] || 'info',
+                                title: match[4] || '',
+                                options: match[6] || '',
+                                content: match[7].trim()
+                            };
+                        }
+                    },
+                    renderer(token) {
+                        const isOpen = token.options.includes('open');
+                        return `
+                            <details class="foldable ${token.foldType}" ${isOpen ? 'open' : ''}>
+                                <summary>${token.title || '点击展开'}</summary>
+                                ${marked.parse(token.content)}
+                            </details>
+                        `;
+                    }
+                }
+            ];
+            marked.use({ extensions: customExtensions });
+
+            // ==================== 安全过滤 ====================
+            function sanitizeHTML(html) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const dangerousTags = ['script', 'link', 'meta', 'object', 'embed', 'style'];
+                dangerousTags.forEach(tag => {
+                    doc.querySelectorAll(tag).forEach(el => el.remove());
+                });
+                doc.querySelectorAll('*').forEach(el => {
+                    [...el.attributes].forEach(attr => {
+                        if (attr.name.startsWith('on') || attr.name.toLowerCase() === 'style') {
+                            el.removeAttribute(attr.name);
+                        }
+                        if (attr.value && typeof attr.value === 'string' && attr.value.trim().toLowerCase().startsWith('javascript:')) {
+                            el.removeAttribute(attr.name);
+                        }
+                    });
+                });
+                doc.querySelectorAll('table').forEach(table => {
+                    const rows = table.querySelectorAll('tr');
+                    if (rows.length > 0 && !table.querySelector('tbody')) {
+                        const tbody = doc.createElement('tbody');
+                        rows.forEach(tr => tbody.appendChild(tr));
+                        table.appendChild(tbody);
+                    }
+                });
+                return doc.body.innerHTML;
+            }
+
+            // ==================== 自定义渲染器（代码高亮） ====================
+            const renderer = new marked.Renderer();
+            renderer.code = function (code, language) {
+                const lang = language || 'plaintext';
+                let highlighted = code;
+                if (language && hljs.getLanguage(lang)) {
+                    try {
+                        highlighted = hljs.highlight(code, { language: lang, ignoreIllegals: true }).value;
+                    } catch (e) {}
+                }
+                return `<div class="code-container"><pre><code class="language-${lang}">${highlighted}</code></pre></div>`;
+            };
+
+            marked.setOptions({
+                breaks: false,
+                gfm: true,
+                mangle: false,
+                headerIds: false,
+                renderer: renderer,
+            });
+
+            // ==================== 核心渲染函数 ====================
+            function renderMarkdown(text) {
+                // 预处理：公式换行
+                text = text.replace(/(^|\s)\$\$\s*\n([\s\S]*?)\n\s*\$\$(?=\s|$)/gm, '$1\n$$$$$2$$$$\n');
+                text = text.replace(/([^\n])\n(\|.*\|)\n(\|.*[-:].*\|)/g, '$1\n\n$2\n$3');
+
+                const tmp = document.createElement('div');
+                tmp.innerHTML = sanitizeHTML(marked.parse(text));
+
+                // 为图片添加安全属性
+                const images = tmp.querySelectorAll('img');
+                images.forEach(img => {
+                    img.setAttribute('referrerpolicy', 'no-referrer');
+                    img.setAttribute('crossorigin', 'anonymous');
+                });
+
+                // 渲染 LaTeX
+                renderMathInElement(tmp, {
+                    delimiters: [
+                        { left: '$$', right: '$$', display: true },
+                        { left: '$', right: '$', display: false },
+                        { left: '\\(', right: '\\)', display: false },
+                        { left: '\\[', right: '\\]', display: true }
+                    ],
+                    strict: false,
+                    escape: false,
+                    preProcess: (math) => {
+                        return math.replace(/\\(\r?\n)/g, '\\\\$1');
+                    }
+                });
+
+                return tmp.innerHTML;
+            }
+
+            // ==================== 绑定渲染事件 ====================
+            const input = document.getElementById('markdown-input');
+            const preview = document.getElementById('preview');
+            const renderBtn = document.getElementById('render-btn');
+
+            function updatePreview() {
+                preview.innerHTML = renderMarkdown(input.value);
+            }
+
+            renderBtn.addEventListener('click', updatePreview);
+            // 初次加载渲染示例
+            window.addEventListener('load', updatePreview);
+
+            // 可选：实时渲染（去掉注释即可启用）
+            input.addEventListener('input', updatePreview);
+        })();
+    </script>
+</body>
+</html>

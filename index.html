@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <!-- Clarity tracking code for https://luogu.qzz.io/ -->
+    <script>
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i+"?ref=bwt";
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "vi2g0q5518");
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenGen 洛谷国际</title>
+    <link rel="icon" href="https://luogu.qzz.io/lgge.svg">
+    <link rel="stylesheet" href="https://luogu.qzz.io/style.css">
+</head>
+<body>
+
+  <!-- 侧边栏 -->
+  <div class="sidebar-wrapper">
+      <aside class="sidebar">
+
+          <!-- Logo -->
+          <div class="sidebar-header">
+              <img src="https://luogu.qzz.io/lgge.svg" class="sidebar-logo" alt="logo">
+              <span class="sidebar-title">GenGen 洛谷国际</span>
+          </div>
+
+          <!-- 导航菜单 -->
+          <nav class="sidebar-nav">
+              <a href="/" class="nav-item active">
+                  <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house size-5 shrink-0" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg></span>
+                  <span class="text">首页</span>
+              </a>
+              <a href="/article" class="nav-item">
+                  <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper-icon lucide-newspaper"><path d="M15 18h-5"/><path d="M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0v-9a2 2 0 0 1 2-2h2"/><rect width="8" height="4" x="10" y="6" rx="1"/></svg></span>
+                  <span class="text">文章</span>
+              </a>
+              <a href="/paste" class="nav-item">
+                  <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-pen-line-icon lucide-clipboard-pen-line"><rect width="8" height="4" x="8" y="2" rx="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-.5"/><path d="M16 4h2a2 2 0 0 1 1.73 1"/><path d="M8 18h1"/><path d="M21.378 12.626a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/></svg></span>
+                  <span class="text">云剪切板</span>
+              </a>
+          </nav>
+
+      </aside>
+  </div>
+
+  <!-- 主内容区域 -->
+  <div class="main">
+
+      <!-- 顶栏 -->
+      <header class="topbar">
+          <nav class="breadcrumb">
+              <ol>
+                  <li class="breadcrumb-item">
+                      <span class="breadcrumb-current">首页</span>
+                  </li>
+              </ol>
+          </nav>
+      </header>
+
+      <!-- 中心内容 -->
+      <div class="home-content">
+          <div class="box">
+
+              <!-- 标题区域 -->
+              <div class="header">
+                  <img src="https://luogu.qzz.io/lgge.svg" class="logo" alt="logo">
+                  <h1><a href="https://gengen.qzz.io" class="logo-link"><span>GenGen</span> 洛谷国际</a></h1>
+                </div>
+
+              <!-- 搜索栏 -->
+              <div class="search-bar">
+                  <input type="text" placeholder="输入洛谷地址">
+                  <button>→</button>
+              </div>
+
+          </div>
+      </div>
+
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.search-bar input');
+    const searchButton = document.querySelector('.search-bar button');
+    
+    // 处理跳转逻辑
+    const handleRedirect = () => {
+      let urlStr = searchInput.value.trim();
+      if (!urlStr) {
+        alert('请输入洛谷地址');
+        return;
+      }
+      
+      // 1. 优先替换 .com.cn（避免 .com 先替换导致残留）
+      let newUrl = urlStr
+        .replace(/luogu\.com\.cn/ig, 'luogu.qzz.io')
+        .replace(/luogu\.me/ig, 'luogu.qzz.io')
+        .replace(/luogu\.com/ig, 'luogu.qzz.io');
+      
+      // 2. 确保使用 HTTPS 协议
+      if (!/^https?:\/\//i.test(newUrl)) {
+        newUrl = 'https://' + newUrl;
+      } else {
+        newUrl = newUrl.replace(/^http:/i, 'https:');
+      }
+      
+      // 3. 验证是否包含目标域名（基础校验）
+      try {
+        const urlObj = new URL(newUrl);
+        if (!urlObj.hostname.includes('luogu.qzz.io')) {
+          if (confirm(`检测到非洛谷地址，是否仍跳转到：\n${newUrl}`)) {
+            window.location.href = newUrl;
+          }
+          return;
+        }
+      } catch (e) {
+        alert('地址格式无效，请检查输入');
+        return;
+      }
+      
+      // 4. 安全跳转
+      window.location.href = newUrl;
+    };
+    
+    // 绑定事件
+    searchButton.addEventListener('click', handleRedirect);
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleRedirect();
+    });
+    
+  });
+  </script>
+</body>
+</html>
