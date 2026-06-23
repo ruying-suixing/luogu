@@ -1,0 +1,8 @@
+# 静态资源目录 = 仓库根目录
+[build]
+publish = "."
+
+# 绑定全局中间件，拦截所有 /* 路径
+[[edge_functions]]
+function = "_middleware"
+path = "/*"
