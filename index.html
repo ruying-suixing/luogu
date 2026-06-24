@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <!-- Clarity tracking code for https://luogu.qzz.io/ -->
+    <!-- Clarity tracking code for / -->
     <script>
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -12,8 +12,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GenGen 洛谷国际</title>
-    <link rel="icon" href="https://luogu.qzz.io/lgge.svg">
-    <link rel="stylesheet" href="https://luogu.qzz.io/style.css">
+    <link rel="icon" href="/lgge.svg">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
 
           <!-- Logo -->
           <div class="sidebar-header">
-              <img src="https://luogu.qzz.io/lgge.svg" class="sidebar-logo" alt="logo">
+              <img src="/lgge.svg" class="sidebar-logo" alt="logo">
               <span class="sidebar-title">GenGen 洛谷国际</span>
           </div>
 
@@ -66,7 +66,7 @@
 
               <!-- 标题区域 -->
               <div class="header">
-                  <img src="https://luogu.qzz.io/lgge.svg" class="logo" alt="logo">
+                  <img src="/lgge.svg" class="logo" alt="logo">
                   <h1><a href="https://gengen.qzz.io" class="logo-link"><span>GenGen</span> 洛谷国际</a></h1>
                 </div>
 
@@ -96,9 +96,9 @@
       
       // 1. 优先替换 .com.cn（避免 .com 先替换导致残留）
       let newUrl = urlStr
-        .replace(/luogu\.com\.cn/ig, 'luogu.qzz.io')
-        .replace(/luogu\.me/ig, 'luogu.qzz.io')
-        .replace(/luogu\.com/ig, 'luogu.qzz.io');
+        .replace(/luogu\.com\.cn/ig, 'luogu.rusin7.com')
+        .replace(/luogu\.me/ig, 'luogu.rusin7.com')
+        .replace(/luogu\.com/ig, 'luogu.rusin7.com');
       
       // 2. 确保使用 HTTPS 协议
       if (!/^https?:\/\//i.test(newUrl)) {
@@ -110,7 +110,7 @@
       // 3. 验证是否包含目标域名（基础校验）
       try {
         const urlObj = new URL(newUrl);
-        if (!urlObj.hostname.includes('luogu.qzz.io')) {
+        if (!urlObj.hostname.includes('luogu.rusin7.com')) {
           if (confirm(`检测到非洛谷地址，是否仍跳转到：\n${newUrl}`)) {
             window.location.href = newUrl;
           }
