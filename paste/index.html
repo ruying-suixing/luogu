@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <!-- Clarity tracking code for https://luogu.qzz.io/ -->
+    <!-- Clarity tracking code for / -->
     <script>
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -13,10 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>云剪切板 · GenGen 洛谷国际</title>
     <!-- 洛谷基础样式 + 扩展样式 (优先级低于 style.css: 先引入它们) -->
-    <link rel="stylesheet" href="https://luogu.qzz.io/mark.css">
+    <link rel="stylesheet" href="/mark.css">
     <!-- 共用 favicon & 主样式表 (深色玻璃变量 + 侧边栏 + 基础框架) 后引入，优先级高 -->
-    <link rel="icon" href="https://luogu.qzz.io/lgge.svg">
-    <link rel="stylesheet" href="https://luogu.qzz.io/style.css">
+    <link rel="icon" href="/lgge.svg">
+    <link rel="stylesheet" href="/style.css">
     <!-- GitHub Markdown 深色主题 + 代码高亮深色 (背景将强制透明) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.0/github-markdown-dark.min.css">
     <link rel="stylesheet" href="https://cdn.timecdn.cn/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
@@ -39,7 +39,7 @@
     <div class="sidebar-wrapper">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="https://luogu.qzz.io/lgge.svg" class="sidebar-logo" alt="logo">
+                <img src="/lgge.svg" class="sidebar-logo" alt="logo">
                 <span class="sidebar-title">GenGen 洛谷国际</span>
             </div>
             <nav class="sidebar-nav">
@@ -120,11 +120,11 @@
         <!-- 页脚 -->
         <footer class="site-footer">
             <div class="footer-links">
-                <a href="https://luogu.qzz.io/article/x2zyl5ua" target="_blank">关于</a>
+                <a href="/article/x2zyl5ua" target="_blank">关于</a>
                 <span class="footer-separator">·</span>
-                <a href="https://luogu.qzz.io/article/j4u9p5ux" target="_blank">API 协议</a>
+                <a href="/article/j4u9p5ux" target="_blank">API 协议</a>
                 <span class="footer-separator">·</span>
-                <a href="https://luogu.qzz.io/article/pqahkkyk" target="_blank">用户及隐私协议</a>
+                <a href="/article/pqahkkyk" target="_blank">用户及隐私协议</a>
                 <span class="footer-separator">·</span>
                 <a href="https://www.luogu.com.cn/chat?uid=697932" target="_blank">联系我们</a>
                 <span class="footer-separator">·</span>
@@ -303,7 +303,7 @@
             const breadcrumbSpan = document.getElementById('breadcrumb-current');
 
             async function loadArticle(forceUpdate = false) {
-                let apiUrl = `https://luogu.qzz.io/api/p/${articleId}`;
+                let apiUrl = `/api/p/${articleId}`;
                 if (forceUpdate) {
                     apiUrl += '?update=1';
                 }
