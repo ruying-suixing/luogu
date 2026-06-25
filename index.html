@@ -96,9 +96,9 @@
       
       // 1. 优先替换 .com.cn（避免 .com 先替换导致残留）
       let newUrl = urlStr
-        .replace(/luogu\.com\.cn/ig, 'luogu.netlify.app')
-        .replace(/luogu\.me/ig, 'luogu.netlify.app')
-        .replace(/luogu\.com/ig, 'luogu.netlify.app');
+        .replace(/luogu\.com\.cn/ig, 'luogu-save.netlify.app')
+        .replace(/luogu\.me/ig, 'luogu-save.netlify.app')
+        .replace(/luogu\.com/ig, 'luogu-save.netlify.app');
       
       // 2. 确保使用 HTTPS 协议
       if (!/^https?:\/\//i.test(newUrl)) {
